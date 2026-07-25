@@ -11,19 +11,23 @@
 -- ============================================================
 
 -- 工單 1：客服查會員
-
+CREATE INDEX idx_users_email ON users(email);
 
 -- 工單 2：企業會員的課表
-
+create index idx_course_bookings_companycourselist on course_bookings(user_id, cancelled_at)
 
 -- 工單 3：最新購買紀錄牆
+create index idx_credit_purchases_purchase_at on credit_purchases(purchase_at)
 
 
 -- 工單 4：首頁「進行中課程」
-
+create index idx_courses_time on courses(start_at, end_at)
 
 -- 工單 5：上週開課課程的教練報名統計（思考方向：需新增兩個索引）
+CREATE INDEX idx_course_bookings_course_id_cancelled on course_bookings(course_id, cancelled_at)
 
 
 -- 加分題（選做）：使用部分索引（partial index）讓工單 2 的索引更小、更有效率
 
+create index idx_course_bookings_companycourselist2 on course_bookings(user_id) 
+WHERE cancelled_at is NULL
