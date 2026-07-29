@@ -33,12 +33,14 @@ CREATE INDEX IF NOT EXISTS idx_credit_purchases_purchase_at on credit_purchases(
 CREATE INDEX IF NOT EXISTS idx_courses_time on courses(end_at, start_at); 
 
 -- 工單 5：上週開課課程的教練報名統計（思考方向：需新增兩個索引）
-CREATE INDEX IF NOT EXISTS idx_course_bookings_course_id_cancelled on course_bookings(course_id, cancelled_at);
+
 
 -- 修正後
     -- 因應工單 4 調整，新增以 start_at 排序的索引
-CREATE INDEX IF NOT EXISTS idx_course_bookings_startat on course_bookings(start_at);
-
+    -- 複合索引 course_id, cancelled_at 調整為部分索引
+CREATE INDEX IF NOT EXISTS idx_course_bookings_startat on courses(start_at);
+CREATE INDEX IF NOT EXISTS idx_course_bookings_course_id_cancelled on course_bookings(course_id)
+WHERE cancelled_at is NULL;
 
 -- 加分題（選做）：使用部分索引（partial index）讓工單 2 的索引更小、更有效率
 
